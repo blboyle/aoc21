@@ -1,30 +1,37 @@
 import { input, test } from './fixtures';
-import { Submarine, Player } from '../src/';
+import { Submarine } from '../src/';
 
-let answer = 0;
+let sub;
+
+beforeEach(() => {
+  sub = new Submarine();
+});
+
+const getAnswer = (sub) => {
+  const { position } = sub;
+  return position.depth * position.horizontalPosition;
+};
 
 it('matches the test code for part 1', () => {
-  const sub = new Submarine();
-
-  sub.navigate(test);
-  const position = sub.getPosition();
-  const answer = position.depth * position.horizontalPosition;
+  sub.navigate({ input: test, method: 'depth' });
+  const answer = getAnswer(sub);
   expect(answer).toBe(150);
 });
 
 it('matches the input code for part 1', () => {
-  const sub = new Submarine();
-
-  sub.navigate(input);
-  const position = sub.getPosition();
-  const answer = position.depth * position.horizontalPosition;
-  expect(answer).toBe(1301);
+  sub.navigate({ input, method: 'depth' });
+  const answer = getAnswer(sub);
+  expect(answer).toBe(1893605);
 });
 
-it.skip('matches the test code for part 2', () => {
-  expect(answer).toBe(5);
+it('matches the test code for part 2', () => {
+  sub.navigate({ input: test });
+  const answer = getAnswer(sub);
+  expect(answer).toBe(900);
 });
 
-it.skip('matches the input code for part 2', () => {
-  expect(answer).toBe(1346);
+it('matches the input code for part 2', () => {
+  sub.navigate({ input });
+  const answer = getAnswer(sub);
+  expect(answer).toBe(2120734350);
 });
