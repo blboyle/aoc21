@@ -8,8 +8,10 @@ beforeEach(() => {
 });
 
 const getAnswer = (sub) => {
-  const { position } = sub;
-  return position.depth * position.horizontalPosition;
+  const {
+    position: { depth, horizontalPosition },
+  } = sub;
+  return depth * horizontalPosition;
 };
 
 it('matches the test code for part 1', () => {
