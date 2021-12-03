@@ -3,7 +3,7 @@ type DirectionType = 'forward' | 'down' | 'up';
 type DirectionAmount = number;
 type Direction = [DirectionType, DirectionAmount];
 
-class Sub {
+export class Sub {
   constructor() {
     this.depth = 0;
     this.horizontalPosition = 0;

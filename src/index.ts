@@ -1,2 +1,2 @@
-export { Submarine } from './Submarine';
+export { Sub as Submarine } from './Sub';
 export { Player } from './Player';
