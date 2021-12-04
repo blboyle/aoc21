@@ -3,12 +3,16 @@ type DirectionType = 'forward' | 'down' | 'up';
 type DirectionAmount = number;
 type Direction = [DirectionType, DirectionAmount];
 
+import { Bingo } from './Bingo';
+
 export class Submarine {
   constructor() {
     this.depth = 0;
     this.horizontalPosition = 0;
     this.aim = 0;
   }
+
+  bingoBoard;
 
   private diagnosticReport;
 
@@ -88,7 +92,11 @@ export class Submarine {
     let currentListOfValues = this.diagnosticReport;
     const [{ length }] = this.diagnosticReport;
 
-    for (let i = 0; i < length && currentListOfValues.length > 1; i++) {
+    for (
+      let i = 0;
+      i < length && currentListOfValues.length > 1;
+      i++
+    ) {
       const commonBit = this.countCommonBit({
         report: currentListOfValues,
         index: i,
@@ -99,7 +107,10 @@ export class Submarine {
       );
     }
     const [oxygenGeneratorRatingBinary] = currentListOfValues;
-    const oxygenGeneratorRating = parseInt(oxygenGeneratorRatingBinary, 2);
+    const oxygenGeneratorRating = parseInt(
+      oxygenGeneratorRatingBinary,
+      2,
+    );
     this.oxygenGeneratorRating = oxygenGeneratorRating;
     return this.oxygenGeneratorRating;
   }
@@ -108,7 +119,11 @@ export class Submarine {
     let currentListOfValues = this.diagnosticReport;
     const { length } = this.diagnosticReport[0];
 
-    for (let i = 0; i < length && currentListOfValues.length > 1; i++) {
+    for (
+      let i = 0;
+      i < length && currentListOfValues.length > 1;
+      i++
+    ) {
       const commonBit = this.countCommonBit({
         report: currentListOfValues,
         index: i,
@@ -126,14 +141,18 @@ export class Submarine {
   }
 
   generateGammaRate() {
-    const commonBitArray = this.countCommonBits(this.diagnosticReport);
+    const commonBitArray = this.countCommonBits(
+      this.diagnosticReport,
+    );
     const gammaRateBinary = commonBitArray.join('');
     this.gammaRate = parseInt(gammaRateBinary, 2);
     return this.gammaRate;
   }
 
   generateEpsilonRate() {
-    const commonBitArray = this.countCommonBits(this.diagnosticReport);
+    const commonBitArray = this.countCommonBits(
+      this.diagnosticReport,
+    );
     const epsilonArray = commonBitArray.map((item) => {
       if (item == 0) return 1;
       if (item == 1) return 0;
@@ -144,7 +163,10 @@ export class Submarine {
   }
 
   get powerConsumption() {
-    if (this.diagnosticReport == null || this.diagnosticReport?.length < 1) {
+    if (
+      this.diagnosticReport == null ||
+      this.diagnosticReport?.length < 1
+    ) {
       throw new Error('Create diagnostic report.');
     }
     this.generateGammaRate();
@@ -153,12 +175,21 @@ export class Submarine {
   }
 
   get lifeSupportRating() {
-    if (this.diagnosticReport == null || this.diagnosticReport?.length < 1) {
+    if (
+      this.diagnosticReport == null ||
+      this.diagnosticReport?.length < 1
+    ) {
       throw new Error('Create diagnostic report.');
     }
     this.generateOxygenGeneratorRating();
     this.generateCo2ScrubberRating();
     return this.co2ScrubberRating * this.oxygenGeneratorRating;
+  }
+
+  // day 4
+
+  startBingo(input) {
+    return new Bingo(input);
   }
 
   // ** internal methods
