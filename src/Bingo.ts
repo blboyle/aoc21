@@ -1,20 +1,33 @@
+type OriginalBoard = number[][];
+type BooleanBoard = (0 | 1)[][];
+
+type Location = [number, number];
+
+type Board = [OriginalBoard, BooleanBoard];
+type BingoDirection = 'row' | 'column';
+type Winner = [number, BingoDirection, number];
+
 export class Bingo {
-  constructor(input) {
+  constructor(input: string) {
     this.numbersToCall = this.generateNumbersToCall(input);
     this.boards = this.generateBoards(input);
   }
 
-  private numbersToCall;
-  private boards;
+  private numbersToCall: number[];
+  private boards: Board[];
 
-  winner;
-  currentNumber;
-  letThemWin;
-  callNextNumber = true;
+  private winner: Winner;
+  private currentNumber: number;
+  private letThemWin: boolean;
+  private callNextNumber: boolean = true;
 
-  winningBoards = [];
+  private winningBoards: Winner[] = [];
 
-  playGame({ letThemWin = false }) {
+  playGame({
+    letThemWin = false,
+  }: {
+    letThemWin?: boolean;
+  }): void {
     this.letThemWin = letThemWin;
     while (
       this.numbersToCall.length > 0 &&
@@ -24,53 +37,57 @@ export class Bingo {
     }
   }
 
-  private generateNumbersToCall(input) {
+  private generateNumbersToCall(input: string): number[] {
     const [numbers] = input.split('\n');
-    return numbers.split(',');
+    return numbers.split(',').map((cell) => Number(cell));
   }
-  private generateBoards(input) {
+
+  private generateBoards(input: string): Board[] {
     const [, ...inputBoards] = input.split('\n\n');
-    const soloBoards = inputBoards.map((board) =>
-      board
-        .split('\n')
-        .map((row) =>
-          row.split(' ').filter((cell) => cell != ''),
+    const soloBoards: OriginalBoard[] = inputBoards.map(
+      (board) =>
+        board.split('\n').map((row) =>
+          row
+            .split(' ')
+            .filter((cell) => cell != '')
+            .map((cell) => Number(cell)),
         ),
     );
-    return soloBoards.map((board) => [
+    return soloBoards.map((board: OriginalBoard) => [
       board,
       [0, 1, 2, 3, 5].map(() => [0, 0, 0, 0, 0]),
     ]);
   }
 
-  private playTurn() {
+  private playTurn(): void {
     this.currentNumber = this.numbersToCall.shift();
-    this.boards.map((board) => {
-      const location = this.checkBoardForNumber(
-        this.currentNumber,
-        board[0],
-      );
-      if (location != null) {
-        const [x, y] = location;
-        board[1][x][y] = 1;
-      }
-    });
+    this.boards.map(
+      ([boardWithNumbers, boardWithBooleans]) => {
+        const location: Location | null =
+          this.checkBoardForNumber(
+            this.currentNumber,
+            boardWithNumbers,
+          );
+        if (location !== null) {
+          const [x, y]: Location = location;
+          boardWithBooleans[x][y] = 1;
+        }
+      },
+    );
 
-    this.boards.map((board, i) => {
-      const boardHasWon = this.winningBoards.some(
-        (board) => {
-          return board[0] == i;
+    this.boards.map(([_, boardWithBooleans], i) => {
+      const boardHasWon: boolean = this.winningBoards.some(
+        ([boardIndex]) => {
+          return boardIndex == i;
         },
       );
-      const keepChecking = this.letThemWin
+      const keepChecking: boolean = this.letThemWin
         ? !boardHasWon
         : !this.winner;
 
       if (keepChecking) {
-        const winner = this.checkBoardForWinner(
-          i,
-          board[1],
-        );
+        const winner: Winner | undefined =
+          this.checkBoardForWinner(i, boardWithBooleans);
         if (winner) {
           this.winningBoards.push(winner);
         }
@@ -82,7 +99,7 @@ export class Bingo {
       : this.winningBoards.length <= 0;
   }
 
-  calculateScore() {
+  calculateScore(): number {
     const winningBoardsLength = this.winningBoards.length;
 
     const boardIndex =
@@ -109,12 +126,15 @@ export class Bingo {
   }
 
   findWinningRowNumbers() {
-    const [boardIndex, , row] = this.winner;
+    const [boardIndex, _, row] = this.winner;
     return this.boards[boardIndex][0][row];
   }
 
-  checkBoardForWinner(boardIndex, board) {
-    const winningRow = board
+  private checkBoardForWinner(
+    boardIndex: number,
+    board: OriginalBoard,
+  ) {
+    const winningRow: number = board
       .map((row) => row.every((cell) => cell === 1))
       .indexOf(true);
 
@@ -134,8 +154,11 @@ export class Bingo {
     }
   }
 
-  checkBoardForNumber(currentNumber, board) {
-    let location = [null, null];
+  private checkBoardForNumber(
+    currentNumber: number,
+    board: OriginalBoard,
+  ) {
+    let location: Location = [-1, -1];
 
     board.map((row, i) => {
       row.map((cell, j) => {
@@ -146,7 +169,7 @@ export class Bingo {
       });
     });
 
-    if (location.some((item) => item !== null)) {
+    if (location.some((item) => item !== -1)) {
       return location;
     } else {
       return null;
