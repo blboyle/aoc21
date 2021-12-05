@@ -51,9 +51,6 @@ export class Player {
     this.hydrothermalVentDiagram = new VentDiagram(
       linesToUse,
     );
-  }
-
-  get numberOfOverlaps() {
-    return this.hydrothermalVentDiagram.findOverlaps();
+    return this.hydrothermalVentDiagram.numberOfOverlaps;
   }
 }

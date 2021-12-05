@@ -13,6 +13,9 @@ export class Line {
     this.end = end;
   }
 
+  start: Point;
+  end: Point;
+
   get isHorizontal() {
     return this.start[0] == this.end[0];
   }
@@ -26,7 +29,4 @@ export class Line {
     const xDiff = this.end[1] - this.start[1];
     return Math.abs(xDiff) == Math.abs(yDiff);
   }
-
-  start: Point;
-  end: Point;
 }

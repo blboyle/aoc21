@@ -1,107 +1,105 @@
 export class VentDiagram {
   constructor(lines) {
     this.lines = lines;
-    this.createDiagram(this.lines);
+    this.create();
   }
 
   private lines;
-  private stringOutput;
   private array;
 
-  createDiagram(listOfLines) {
-    const sizeOfDiagram = this.findSizeOfArray(listOfLines);
+  create() {
+    this.createEmptyDiagram(this.findSizeOfDiagram());
+    this.lines.map((line) => {
+      this.addLineToDiagram(line);
+    });
+    // this.outputDiagramToTerminal();
+  }
 
-    let diagramArray = [];
-    for (let i = 0; i < sizeOfDiagram[0]; i++) {
+  createEmptyDiagram([height, width]: [number, number]) {
+    this.array = [];
+
+    for (let i = 0; i < height; i++) {
       let row = [];
-      for (let j = 0; j < sizeOfDiagram[1]; j++) {
+      for (let j = 0; j < width; j++) {
         row.push('.');
       }
-      diagramArray.push(row);
+      this.array.push(row);
+    }
+  }
+
+  addLineToDiagram(line) {
+    const {
+      start: [startX, startY],
+      end: [endX, endY],
+    } = line;
+
+    if (line.isDiagonal) {
+      let y = startY;
+      let x = startX;
+
+      if (endY > startY) {
+        if (endX > startX) {
+          while (x <= endX && y <= endY) {
+            this.updatePoint(x, y);
+            y++;
+            x++;
+          }
+        } else {
+          while (x >= endX && y <= endY) {
+            this.updatePoint(x, y);
+            y++;
+            x--;
+          }
+        }
+      } else {
+        if (endX > startX) {
+          while (x <= endX && y >= endY) {
+            this.updatePoint(x, y);
+            y--;
+            x++;
+          }
+        } else {
+          while (x >= endX && y >= endY) {
+            this.updatePoint(x, y);
+            y--;
+            x--;
+          }
+        }
+      }
     }
 
-    const updatePosition = (x, y) => {
-      const currentDigit = diagramArray[y][x];
-      if (currentDigit == '.') {
-        diagramArray[y][x] = 1;
+    if (line.isVertical) {
+      if (startX < endX) {
+        for (let x = startX; x <= endX; x++) {
+          this.updatePoint(x, startY);
+        }
       } else {
-        diagramArray[y][x]++;
-      }
-    };
-
-    const addLineToDiagram = (line) => {
-      const {
-        start: [startX, startY],
-        end: [endX, endY],
-      } = line;
-
-      if (line.isDiagonal) {
-        let y = startY;
-        let x = startX;
-
-        if (endY > startY) {
-          if (endX > startX) {
-            while (x <= endX && y <= endY) {
-              updatePosition(x, y);
-              y++;
-              x++;
-            }
-          } else {
-            while (x >= endX && y <= endY) {
-              updatePosition(x, y);
-              y++;
-              x--;
-            }
-          }
-        } else {
-          if (endX > startX) {
-            while (x <= endX && y >= endY) {
-              updatePosition(x, y);
-              y--;
-              x++;
-            }
-          } else {
-            while (x >= endX && y >= endY) {
-              updatePosition(x, y);
-              y--;
-              x--;
-            }
-          }
+        for (let x = startX; x >= endX; x--) {
+          this.updatePoint(x, startY);
         }
       }
+    }
 
-      if (line.isVertical) {
-        if (startX < endX) {
-          for (let x = startX; x <= endX; x++) {
-            updatePosition(x, startY);
-          }
-        } else {
-          for (let x = startX; x >= endX; x--) {
-            updatePosition(x, startY);
-          }
+    if (line.isHorizontal) {
+      if (startY < endY) {
+        for (let y = startY; y <= endY; y++) {
+          this.updatePoint(startX, y);
+        }
+      } else {
+        for (let y = startY; y >= endY; y--) {
+          this.updatePoint(startX, y);
         }
       }
+    }
+  }
 
-      if (line.isHorizontal) {
-        if (startY < endY) {
-          for (let y = startY; y <= endY; y++) {
-            updatePosition(startX, y);
-          }
-        } else {
-          for (let y = startY; y >= endY; y--) {
-            updatePosition(startX, y);
-          }
-        }
-      }
-    };
-
-    listOfLines.map(addLineToDiagram);
-
-    this.stringOutput = diagramArray
-      .map((row) => row.join(''))
-      .join('\n');
-
-    this.array = diagramArray;
+  updatePoint(x, y) {
+    const currentDigit = this.array[y][x];
+    if (currentDigit == '.') {
+      this.array[y][x] = 1;
+    } else {
+      this.array[y][x]++;
+    }
   }
 
   findOverlaps() {
@@ -118,28 +116,31 @@ export class VentDiagram {
     );
   }
 
-  findSizeOfArray(list) {
-    let width = 0;
-    let height = 0;
-    list.map((line) => {
-      const { start, end } = line;
-      if (start[0] > width) {
-        width = start[0];
-      }
-      if (end[0] > width) {
-        width = end[0];
-      }
-      if (start[1] > width) {
-        height = start[1];
-      }
-      if (end[1] > width) {
-        height = end[1];
-      }
-    });
-    return [width + 1, height + 1];
+  findSizeOfDiagram(): [number, number] {
+    const flatX = this.lines.flatMap(({ start, end }) => [
+      start[0],
+      end[0],
+    ]);
+
+    const flatY = this.lines.flatMap(({ start, end }) => [
+      start[1],
+      end[1],
+    ]);
+
+    const height = Math.max(...flatX) + 1;
+    const width = Math.max(...flatY) + 1;
+
+    return [width, height];
   }
 
   get numberOfOverlaps() {
     return this.findOverlaps();
+  }
+
+  outputDiagramToTerminal() {
+    const display = this.array
+      .map((row) => row.join(''))
+      .join('\n');
+    console.log(display);
   }
 }
