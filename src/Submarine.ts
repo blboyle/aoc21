@@ -3,7 +3,8 @@ type DirectionType = 'forward' | 'down' | 'up';
 type DirectionAmount = number;
 type Direction = [DirectionType, DirectionAmount];
 
-import { Bingo } from './Bingo';
+import { Bingo } from './BingoGame/Bingo';
+import { Line } from './HydrothermalVents/Line';
 
 export class Submarine {
   constructor() {
@@ -45,7 +46,8 @@ export class Submarine {
     input: string;
     method: NavigateMethod;
   }) {
-    const directions: Direction[] = this.prepareDirections(input);
+    const directions: Direction[] =
+      this.prepareDirections(input);
 
     directions.map(([directionType, amount]) => {
       switch (directionType) {
@@ -106,7 +108,8 @@ export class Submarine {
         (row) => row[i] == commonBit,
       );
     }
-    const [oxygenGeneratorRatingBinary] = currentListOfValues;
+    const [oxygenGeneratorRatingBinary] =
+      currentListOfValues;
     const oxygenGeneratorRating = parseInt(
       oxygenGeneratorRatingBinary,
       2,
@@ -134,7 +137,10 @@ export class Submarine {
       );
     }
     const [co2ScrubberRatingBinary] = currentListOfValues;
-    const co2ScrubberRating = parseInt(co2ScrubberRatingBinary, 2);
+    const co2ScrubberRating = parseInt(
+      co2ScrubberRatingBinary,
+      2,
+    );
     this.co2ScrubberRating = co2ScrubberRating;
 
     return this.co2ScrubberRating;
@@ -183,13 +189,21 @@ export class Submarine {
     }
     this.generateOxygenGeneratorRating();
     this.generateCo2ScrubberRating();
-    return this.co2ScrubberRating * this.oxygenGeneratorRating;
+    return (
+      this.co2ScrubberRating * this.oxygenGeneratorRating
+    );
   }
 
   // day 4
 
   startBingo(input) {
     return new Bingo(input);
+  }
+  Line;
+  // day 5
+
+  createHydrothermalVentLineList(input) {
+    return input.split('\n').map((line) => new Line(line));
   }
 
   // ** internal methods

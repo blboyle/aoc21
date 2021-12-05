@@ -1,3 +1,6 @@
+import { Line } from './HydrothermalVents/Line';
+import { VentDiagram } from './HydrothermalVents/VentDiagram';
+
 export class Player {
   constructor() {}
   countSonarIncrease(sonarReport: number[]) {
@@ -15,13 +18,14 @@ export class Player {
     const inOrder = () => countIncreases(sonarReport);
 
     const byThree = () => {
-      const slidingSonarReport: number[] = sonarReport.flatMap((_, i, arr) => {
-        if (i == 0 || i == arr.length - 1) {
-          return [];
-        }
+      const slidingSonarReport: number[] =
+        sonarReport.flatMap((_, i, arr) => {
+          if (i == 0 || i == arr.length - 1) {
+            return [];
+          }
 
-        return [arr[i - 1] + arr[i] + arr[i + 1]];
-      });
+          return [arr[i - 1] + arr[i] + arr[i + 1]];
+        });
       return countIncreases(slidingSonarReport);
     };
 
@@ -29,5 +33,27 @@ export class Player {
       inOrder,
       byThree,
     };
+  }
+
+  private hydrothermalVentDiagram;
+
+  reviewHydrothermalVentLineList({
+    lineList,
+    includeDiagonals = false,
+  }) {
+    const linesToUse = lineList.filter(
+      (line) =>
+        line.isHorizontal ||
+        line.isVertical ||
+        (includeDiagonals && line.isDiagonal),
+    );
+
+    this.hydrothermalVentDiagram = new VentDiagram(
+      linesToUse,
+    );
+  }
+
+  get numberOfOverlaps() {
+    return this.hydrothermalVentDiagram.findOverlaps();
   }
 }
