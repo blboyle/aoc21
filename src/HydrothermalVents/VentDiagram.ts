@@ -1,13 +1,8 @@
+import { Point } from './Point';
+
 export class VentDiagram {
   constructor(lines) {
     this.lines = lines;
-    this.create();
-  }
-
-  private lines;
-  private array;
-
-  create() {
     this.createEmptyDiagram(this.findSizeOfDiagram());
     this.lines.map((line) => {
       this.addLineToDiagram(line);
@@ -15,13 +10,33 @@ export class VentDiagram {
     // this.outputDiagramToTerminal();
   }
 
+  private lines;
+  private array;
+
+  findSizeOfDiagram(): [number, number] {
+    const flatX = this.lines.flatMap(({ start, end }) => [
+      start[0],
+      end[0],
+    ]);
+
+    const flatY = this.lines.flatMap(({ start, end }) => [
+      start[1],
+      end[1],
+    ]);
+
+    const height = Math.max(...flatX) + 1;
+    const width = Math.max(...flatY) + 1;
+
+    return [width, height];
+  }
+
   createEmptyDiagram([height, width]: [number, number]) {
     this.array = [];
 
-    for (let i = 0; i < height; i++) {
+    for (let i: number = 0; i < height; i++) {
       let row = [];
-      for (let j = 0; j < width; j++) {
-        row.push('.');
+      for (let j: number = 0; j < width; j++) {
+        row.push(new Point([i, j]));
       }
       this.array.push(row);
     }
@@ -94,47 +109,8 @@ export class VentDiagram {
   }
 
   updatePoint(x, y) {
-    const currentDigit = this.array[y][x];
-    if (currentDigit == '.') {
-      this.array[y][x] = 1;
-    } else {
-      this.array[y][x]++;
-    }
-  }
-
-  findOverlaps() {
-    return this.array.reduce(
-      (rowAcc, currRow) =>
-        rowAcc +
-        currRow.reduce((cellAcc, currCell) => {
-          if (currCell !== '.' && currCell > 1) {
-            return cellAcc + 1;
-          }
-          return cellAcc;
-        }, 0),
-      0,
-    );
-  }
-
-  findSizeOfDiagram(): [number, number] {
-    const flatX = this.lines.flatMap(({ start, end }) => [
-      start[0],
-      end[0],
-    ]);
-
-    const flatY = this.lines.flatMap(({ start, end }) => [
-      start[1],
-      end[1],
-    ]);
-
-    const height = Math.max(...flatX) + 1;
-    const width = Math.max(...flatY) + 1;
-
-    return [width, height];
-  }
-
-  get numberOfOverlaps() {
-    return this.findOverlaps();
+    const point = this.array[y][x];
+    point.increaseCount();
   }
 
   outputDiagramToTerminal() {
@@ -142,5 +118,19 @@ export class VentDiagram {
       .map((row) => row.join(''))
       .join('\n');
     console.log(display);
+  }
+
+  get numberOfOverlaps() {
+    return this.array.reduce(
+      (rowAcc, currRow) =>
+        rowAcc +
+        currRow.reduce((pointAcc, currPoint) => {
+          if (currPoint.hasThisManyOverlaps(2)) {
+            return pointAcc + 1;
+          }
+          return pointAcc;
+        }, 0),
+      0,
+    );
   }
 }

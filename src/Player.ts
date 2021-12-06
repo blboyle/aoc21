@@ -35,8 +35,6 @@ export class Player {
     };
   }
 
-  private hydrothermalVentDiagram;
-
   reviewHydrothermalVentLineList({
     lineList,
     includeDiagonals = false,
@@ -48,9 +46,7 @@ export class Player {
         (includeDiagonals && line.isDiagonal),
     );
 
-    this.hydrothermalVentDiagram = new VentDiagram(
-      linesToUse,
-    );
-    return this.hydrothermalVentDiagram.numberOfOverlaps;
+    const ventDiagram = new VentDiagram(linesToUse);
+    return ventDiagram.numberOfOverlaps;
   }
 }
