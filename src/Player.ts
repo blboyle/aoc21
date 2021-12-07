@@ -1,4 +1,5 @@
 import { isConstructorDeclaration } from 'typescript';
+import { CastOfCrabs } from './Crab/CastOfCrabs';
 import { Crab } from './Crab/Crab';
 import { VentDiagram } from './HydrothermalVents/VentDiagram';
 
@@ -51,35 +52,19 @@ export class Player {
     return ventDiagram.numberOfOverlaps;
   }
 
-  determineCheapestHorizontalPosition(input) {
-    const crabs = input
-      .split(',')
-      .map((number) => new Crab(number));
+  determineCheapestHorizontalPosition({
+    input,
+    fuelCostMethod = 'consistent',
+  }) {
+    const crabs = new CastOfCrabs(input);
 
-    const allDistancesAway = crabs.map((crab, _, array) => {
-      const totalDistance = array.reduce(
-        (acc, otherCrab) => {
-          const biggest = Math.max(
-            crab.horizontalPosition,
-            otherCrab.horizontalPosition,
-          );
-          const smallest = Math.min(
-            crab.horizontalPosition,
-            otherCrab.horizontalPosition,
-          );
-
-          return acc + (biggest - smallest);
-        },
-        0,
-      );
-
-      return totalDistance;
-    });
+    const fuelCostsToGetToCrab =
+      crabs.findAllFuelCosts(fuelCostMethod);
 
     let lowestCost = 0;
     let location = 0;
 
-    allDistancesAway.map((distance, i) => {
+    fuelCostsToGetToCrab.map((distance, i) => {
       if (lowestCost == 0) {
         lowestCost = distance;
         location = i;
