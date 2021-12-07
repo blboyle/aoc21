@@ -1,4 +1,5 @@
-import { Line } from './HydrothermalVents/Line';
+import { isConstructorDeclaration } from 'typescript';
+import { Crab } from './Crab/Crab';
 import { VentDiagram } from './HydrothermalVents/VentDiagram';
 
 export class Player {
@@ -48,5 +49,46 @@ export class Player {
 
     const ventDiagram = new VentDiagram(linesToUse);
     return ventDiagram.numberOfOverlaps;
+  }
+
+  determineCheapestHorizontalPosition(input) {
+    const crabs = input
+      .split(',')
+      .map((number) => new Crab(number));
+
+    const allDistancesAway = crabs.map((crab, _, array) => {
+      const totalDistance = array.reduce(
+        (acc, otherCrab) => {
+          const biggest = Math.max(
+            crab.horizontalPosition,
+            otherCrab.horizontalPosition,
+          );
+          const smallest = Math.min(
+            crab.horizontalPosition,
+            otherCrab.horizontalPosition,
+          );
+
+          return acc + (biggest - smallest);
+        },
+        0,
+      );
+
+      return totalDistance;
+    });
+
+    let lowestCost = 0;
+    let location = 0;
+
+    allDistancesAway.map((distance, i) => {
+      if (lowestCost == 0) {
+        lowestCost = distance;
+        location = i;
+      } else if (lowestCost > distance) {
+        lowestCost = distance;
+        location = i;
+      }
+    });
+
+    return lowestCost;
   }
 }
