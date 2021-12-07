@@ -8,6 +8,7 @@ export class LanternfishPool {
       .map((daysLeft) => {
         this.pool.push(new Lanternfish({ daysLeft }));
       });
+    // console.log({ pool: this.pool });
   }
 
   pool = [];
@@ -48,9 +49,11 @@ export class LanternfishPool {
 
   makeKids(lifeTime) {
     const total = this.pool.map((fish) => {
-      // console.log({ fish });
-      return fish.makeKids(lifeTime);
+      console.log(Lanternfish.birthdayHash);
+      console.log('grandpa');
+      return fish.makeKids('none', lifeTime);
     });
+
     console.log({ total });
     // console.log(Lanternfish.birthdayHash);
   }

@@ -3,25 +3,25 @@ import { input, test } from './fixtures';
 import { LanternfishPool } from '../src/Laternfish/LaternfishPool';
 
 describe('test input', () => {
-  it.only('testing stufff', () => {
-    const pool = new LanternfishPool('0');
+  it.skip('testing stufff', () => {
+    const pool = new LanternfishPool('1');
     pool.makeKids(10);
     const { fishCount } = pool;
     expect(true).toBe(true);
     // expect(fishCount).toBe(5934);
   });
 
-  it('testing stufff', () => {
-    const pool = new LanternfishPool(test);
-    pool.makeKids(18);
+  it.skip('testing stufff', () => {
+    const pool = new LanternfishPool('0,1');
+    pool.makeKids(256);
     const { fishCount } = pool;
     expect(true).toBe(true);
     // expect(fishCount).toBe(5934);
   });
 
-  it.only('matches the test code for part 1', () => {
+  it('matches the test code for part 1', () => {
     const pool = new LanternfishPool(test);
-    pool.ageEntirePool(80);
+    pool.makeKids(18);
     const { fishCount } = pool;
 
     expect(fishCount).toBe(5934);
@@ -45,7 +45,7 @@ describe('input', () => {
     expect(fishCount).toBe(393019);
   });
 
-  it('matches the input code for part 2', () => {
+  it.skip('matches the input code for part 2', () => {
     expect(true).toBe(true);
   });
 });
