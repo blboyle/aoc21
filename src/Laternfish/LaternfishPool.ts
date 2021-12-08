@@ -51,7 +51,12 @@ export class LanternfishPool {
     const total = this.pool.map((fish) => {
       console.log(Lanternfish.birthdayHash);
       console.log('grandpa');
-      return fish.makeKids('none', lifeTime);
+      const totalLifeInDays =
+        lifeTime + (8 - fish.daysLeft);
+      return fish.countTotalOffspring(
+        'none',
+        totalLifeInDays,
+      );
     });
 
     console.log({ total });

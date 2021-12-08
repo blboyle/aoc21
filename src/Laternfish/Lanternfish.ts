@@ -26,7 +26,13 @@ export class Lanternfish {
     return makeNewFish;
   }
 
-  makeKids(parent, lifeTime) {
+  countTotalOffspring(parent, lifeTime) {
+    if (parent == 'none') {
+      this.daysLeft = 8;
+    }
+
+    let lifeCounter = lifeTime;
+
     console.log(
       {
         id: this.id,
@@ -37,45 +43,42 @@ export class Lanternfish {
       'may make kids',
     );
     let count = 0;
-
-    let totalDaysLeft = lifeTime - this.daysLeft;
     this.daysLeft = 0;
+
+    let i = 30;
 
     // console.log(totalDaysLeft);
 
-    while (totalDaysLeft >= this.daysLeft) {
+    while (lifeCounter >= this.daysLeft && i > 0) {
       // console.log({
       //   id: this.id,
       //   totalDaysLeft,
       //   fishdaysleft: this.daysLeft,
       // });
 
-      totalDaysLeft -= this.daysLeft;
+      lifeCounter -= this.daysLeft;
       this.daysLeft = 6;
-      // i--;
+      i--;
       count++;
 
-      const total =
-        Lanternfish[totalDaysLeft] != undefined
-          ? this.accessHash(this.id, totalDaysLeft)
-          : new Lanternfish({}).makeKids(
-              this.id,
-              totalDaysLeft,
-            );
+      // const total = new Lanternfish({}).countTotalOffspring(
+      //   this.id,
+      //   lifeCounter,
+      // );
 
-      console.log(
-        { id: this.id },
-        `adding ${totalDaysLeft}:${total} to hash`,
-      );
+      // console.log(
+      //   { id: this.id },
+      //   `adding ${lifeCounter}:${total} to hash`,
+      // );
 
-      Lanternfish[totalDaysLeft] = total;
+      // Lanternfish[lifeCounter] = total;
     }
-    Lanternfish.birthdayHash[lifeTime] = count;
+    // Lanternfish.birthdayHash[lifeTime] = count;
     // console.log({
     //   id: this.id,
     //   h: Lanternfish.birthdayHash,
     // });
-    return Lanternfish.birthdayHash[lifeTime];
+    // return Lanternfish.birthdayHash[lifeTime];
   }
 
   accessHash(id, totalDaysLeft) {
