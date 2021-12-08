@@ -23,72 +23,24 @@ export class Lanternfish {
     }
 
     let count = 0;
-    let hashKey = lifeTime;
+    let topLifeTime = lifeTime;
 
-    // console.log(
-    //   {
-    //     id: this.id,
-    //     parent,
-    //     daysLeft: this.daysLeft,
-    //     lifeTime,
-    //   },
-    //   // 'may make kids',
-    // );
-
-    // if (lifeTime < this.daysLeft) {
-    //   // console.log('returning');
-    //   return 1;
-    // }
+    if (Lanternfish.birthdayHash[lifeTime] != undefined) {
+      return Lanternfish.birthdayHash[lifeTime];
+    }
 
     while (lifeTime > this.daysLeft) {
-      // console.log('in loop', {
-      //   id: this.id,
-      //   daysLeft: this.daysLeft,
-      //   lifeTime,
-      // });
-      // console.log({
-      //   id: this.id,
-      //   totalDaysLeft,
-      //   fishdaysleft: this.daysLeft,
-      // });
-
       lifeTime -= this.daysLeft;
       this.daysLeft = 7;
-      // const birthdayDaysRemain = lifeTime - 1;
-      // i--;
 
       const newFish = new Lanternfish({});
       count += newFish.countTotalOffspring(
         this.id,
         lifeTime,
       );
-      // count++;
-      // console.log({ lifeTime, count });
-
-      // LanternfishPool.count += total;
-
-      // console.log(
-      //   { id: this.id },
-      //   `adding ${lifeCounter}:${total} to hash`,
-      // );
-
-      // Lanternfish[lifeCounter] = total;
     }
-    // Lanternfish.birthdayHash[lifeTime] = count;
-    // console.log({
-    //   id: this.id,
-    //   h: Lanternfish.birthdayHash,
-    // });
-    // return Lanternfish.birthdayHash[lifeTime];
-    return 1 + count;
-  }
 
-  accessHash(id, totalDaysLeft) {
-    console.log(
-      { id },
-      `accessing hash value for ${totalDaysLeft} ->`,
-      Lanternfish[totalDaysLeft],
-    );
-    return Lanternfish[totalDaysLeft];
+    Lanternfish.birthdayHash[topLifeTime] = 1 + count;
+    return Lanternfish.birthdayHash[topLifeTime];
   }
 }

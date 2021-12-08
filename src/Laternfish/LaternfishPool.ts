@@ -33,9 +33,7 @@ export class LanternfishPool {
         return acc + curr;
       });
 
-    console.log({ total });
     this.totalOffspring = total;
-    // console.log(Lanternfish.nextId - 1);
   }
 
   get fishCount() {
