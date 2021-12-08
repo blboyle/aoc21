@@ -2,6 +2,7 @@ import { isConstructorDeclaration } from 'typescript';
 import { CastOfCrabs } from './Crab/CastOfCrabs';
 import { Crab } from './Crab/Crab';
 import { VentDiagram } from './HydrothermalVents/VentDiagram';
+import { SegmentDisplay } from './SevenSegmentDisplays/SegmentDisplay';
 
 export class Player {
   constructor() {}
@@ -75,5 +76,29 @@ export class Player {
     });
 
     return lowestCost;
+  }
+
+  analyzeDisplayCode({ input }) {
+    const displays = input
+      .split('\n')
+      .map((code) => new SegmentDisplay(code));
+
+    const total = displays
+      .map((display) => display.uniqueNumberCount)
+      .reduce((acc, curr) => {
+        return acc + curr;
+      }, 0);
+
+    const codes = displays.map((display) => display.code);
+
+    // console.log({ codes });
+
+    const codeSum = codes.reduce((acc, curr) => {
+      return acc + curr;
+    }, 0);
+
+    // console.log({ totalCode });
+
+    return [total, codeSum];
   }
 }
