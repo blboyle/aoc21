@@ -1,5 +1,7 @@
+import { LanternfishPool } from './LaternfishPool';
+
 export class Lanternfish {
-  constructor({ daysLeft = 8, countChildren = false }) {
+  constructor({ daysLeft = 9, countChildren = false }) {
     this.daysLeft = daysLeft;
     this.id = Lanternfish.nextId;
     Lanternfish.nextId++;
@@ -7,7 +9,7 @@ export class Lanternfish {
 
   static spawnRateInDays: number = 6;
   static birthdayHash = {};
-  static nextId = 0;
+  static nextId = 1;
 
   daysLeft: number;
   firstCycle: boolean;
@@ -28,10 +30,10 @@ export class Lanternfish {
 
   countTotalOffspring(parent, lifeTime) {
     if (parent == 'none') {
-      this.daysLeft = 8;
+      this.daysLeft = 9;
     }
 
-    let lifeCounter = lifeTime;
+    let kids;
 
     console.log(
       {
@@ -40,31 +42,36 @@ export class Lanternfish {
         daysLeft: this.daysLeft,
         lifeTime,
       },
-      'may make kids',
+      // 'may make kids',
     );
-    let count = 0;
-    this.daysLeft = 0;
 
-    let i = 30;
+    // if (lifeTime < this.daysLeft) {
+    //   // console.log('returning');
+    //   return 1;
+    // }
 
-    // console.log(totalDaysLeft);
-
-    while (lifeCounter >= this.daysLeft && i > 0) {
+    while (lifeTime > this.daysLeft) {
+      // console.log('in loop', {
+      //   id: this.id,
+      //   daysLeft: this.daysLeft,
+      //   lifeTime,
+      // });
       // console.log({
       //   id: this.id,
       //   totalDaysLeft,
       //   fishdaysleft: this.daysLeft,
       // });
 
-      lifeCounter -= this.daysLeft;
-      this.daysLeft = 6;
-      i--;
-      count++;
+      lifeTime -= this.daysLeft;
+      this.daysLeft = 7;
+      // const birthdayDaysRemain = lifeTime - 1;
+      // i--;
 
-      // const total = new Lanternfish({}).countTotalOffspring(
-      //   this.id,
-      //   lifeCounter,
-      // );
+      const newFish = new Lanternfish({});
+
+      kids = newFish.countTotalOffspring(this.id, lifeTime);
+
+      // LanternfishPool.count += total;
 
       // console.log(
       //   { id: this.id },
@@ -79,6 +86,7 @@ export class Lanternfish {
     //   h: Lanternfish.birthdayHash,
     // });
     // return Lanternfish.birthdayHash[lifeTime];
+    return `LifeTime: ${lifeTime}, ${kids ? kids : 'end'}`;
   }
 
   accessHash(id, totalDaysLeft) {

@@ -11,6 +11,8 @@ export class LanternfishPool {
     // console.log({ pool: this.pool });
   }
 
+  static count;
+
   pool = [];
   hashTable = [];
 
@@ -49,10 +51,15 @@ export class LanternfishPool {
 
   makeKids(lifeTime) {
     const total = this.pool.map((fish) => {
-      console.log(Lanternfish.birthdayHash);
-      console.log('grandpa');
+      // console.log(Lanternfish.birthdayHash);
+      // console.log('grandpa');
+      // console.log(
+      //   8 - fish.daysLeft,
+      //   fish.daysLeft,
+      //   lifeTime,
+      // );
       const totalLifeInDays =
-        lifeTime + (8 - fish.daysLeft);
+        lifeTime + (9 - fish.daysLeft);
       return fish.countTotalOffspring(
         'none',
         totalLifeInDays,
@@ -60,7 +67,7 @@ export class LanternfishPool {
     });
 
     console.log({ total });
-    // console.log(Lanternfish.birthdayHash);
+    // console.log(Lanternfish.nextId - 1);
   }
 
   listAges() {
