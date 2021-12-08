@@ -91,13 +91,9 @@ export class Player {
 
     const codes = displays.map((display) => display.code);
 
-    // console.log({ codes });
-
     const codeSum = codes.reduce((acc, curr) => {
       return acc + curr;
     }, 0);
-
-    // console.log({ totalCode });
 
     return [total, codeSum];
   }

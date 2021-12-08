@@ -17,33 +17,23 @@ export class Lanternfish {
   children: Lanternfish[] = [];
   id: number;
 
-  ageByOneDay() {
-    let makeNewFish = false;
-    if (this.daysLeft > 0) {
-      this.daysLeft--;
-    } else if (this.daysLeft == 0) {
-      this.daysLeft = 6;
-      makeNewFish = true;
-    }
-    return makeNewFish;
-  }
-
   countTotalOffspring(parent, lifeTime) {
     if (parent == 'none') {
       this.daysLeft = 9;
     }
 
-    let kids;
+    let count = 0;
+    let hashKey = lifeTime;
 
-    console.log(
-      {
-        id: this.id,
-        parent,
-        daysLeft: this.daysLeft,
-        lifeTime,
-      },
-      // 'may make kids',
-    );
+    // console.log(
+    //   {
+    //     id: this.id,
+    //     parent,
+    //     daysLeft: this.daysLeft,
+    //     lifeTime,
+    //   },
+    //   // 'may make kids',
+    // );
 
     // if (lifeTime < this.daysLeft) {
     //   // console.log('returning');
@@ -68,8 +58,12 @@ export class Lanternfish {
       // i--;
 
       const newFish = new Lanternfish({});
-
-      kids = newFish.countTotalOffspring(this.id, lifeTime);
+      count += newFish.countTotalOffspring(
+        this.id,
+        lifeTime,
+      );
+      // count++;
+      // console.log({ lifeTime, count });
 
       // LanternfishPool.count += total;
 
@@ -86,7 +80,7 @@ export class Lanternfish {
     //   h: Lanternfish.birthdayHash,
     // });
     // return Lanternfish.birthdayHash[lifeTime];
-    return `LifeTime: ${lifeTime}, ${kids ? kids : 'end'}`;
+    return 1 + count;
   }
 
   accessHash(id, totalDaysLeft) {
@@ -96,34 +90,5 @@ export class Lanternfish {
       Lanternfish[totalDaysLeft],
     );
     return Lanternfish[totalDaysLeft];
-  }
-
-  decreaseDaysLeft() {
-    this.daysLeft--;
-    if (this.daysLeft < 0) {
-      this.daysLeft = 6;
-    }
-  }
-
-  findNumberOfChildren(timePeriod) {
-    // const n = timePeriod - this.daysLeft;
-
-    // if (n > 0) {
-    //   console.log({ n });
-    // }
-
-    return 1;
-  }
-
-  findEndDaysLeft(days) {
-    const difference = days % 7;
-
-    const newDaysLeft = this.daysLeft - difference;
-
-    if (newDaysLeft < 0) {
-      return 7 - Math.abs(newDaysLeft);
-    }
-
-    return newDaysLeft;
   }
 }

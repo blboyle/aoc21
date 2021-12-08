@@ -15,11 +15,11 @@ describe('test input', () => {
     const pool = new LanternfishPool('1');
     pool.makeKids(20);
     const { fishCount } = pool;
-    expect(true).toBe(true);
-    // expect(fishCount).toBe(5934);
+    // expect(true).toBe(true);
+    expect(fishCount).toBe(5934);
   });
 
-  it.skip('matches the test code for part 1', () => {
+  it.only('matches the test code for part 1', () => {
     const pool = new LanternfishPool(test);
     pool.makeKids(18);
     const { fishCount } = pool;
@@ -27,7 +27,7 @@ describe('test input', () => {
     expect(fishCount).toBe(26);
   });
 
-  it.skip('matches the test code for part 1', () => {
+  it.only('matches the test code for part 1', () => {
     const pool = new LanternfishPool(test);
     pool.makeKids(80);
     const { fishCount } = pool;
@@ -63,7 +63,7 @@ describe('test input', () => {
 describe('input', () => {
   it('matches the input code for part 1', () => {
     const pool = new LanternfishPool(input);
-    pool.ageEntirePool(80);
+    pool.makeKids(80);
     const { fishCount } = pool;
 
     expect(fishCount).toBe(393019);
