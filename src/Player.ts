@@ -1,4 +1,5 @@
 import { isConstructorDeclaration } from 'typescript';
+import { HeightMqp } from './Cave/HeightMap';
 import { CastOfCrabs } from './Crab/CastOfCrabs';
 import { Crab } from './Crab/Crab';
 import { VentDiagram } from './HydrothermalVents/VentDiagram';
