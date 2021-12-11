@@ -3,6 +3,7 @@ import { HeightMqp } from './Cave/HeightMap';
 import { CastOfCrabs } from './Crab/CastOfCrabs';
 import { Crab } from './Crab/Crab';
 import { VentDiagram } from './HydrothermalVents/VentDiagram';
+import { OctopusPool } from './Octopi/OctopusPool';
 import { SegmentDisplay } from './SevenSegmentDisplays/SegmentDisplay';
 
 export class Player {
@@ -97,5 +98,24 @@ export class Player {
     }, 0);
 
     return [total, codeSum];
+  }
+
+  countNumberOfOctopusFlashes({ input, steps }) {
+    const { diagram, totalOctopusFlashes } =
+      new OctopusPool({
+        input,
+        steps,
+      });
+
+    return { diagram, totalOctopusFlashes };
+  }
+
+  checkIfPoolIsSynchornized({ input }) {
+    const { stepOfSynchronisation } = new OctopusPool({
+      input,
+      steps: 0,
+    });
+
+    return { stepOfSynchronisation };
   }
 }
