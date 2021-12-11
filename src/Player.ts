@@ -118,4 +118,11 @@ export class Player {
 
     return { stepOfSynchronisation };
   }
+
+  readHeightMap({ input }) {
+    const heightMap = new HeightMqp({ input });
+    const { riskLevel, topThreeBasinProduct } = heightMap;
+
+    return { riskLevel, topThreeBasinProduct };
+  }
 }

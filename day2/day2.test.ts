@@ -11,7 +11,6 @@ const getAnswer = (sub) => {
   const {
     position: { depth, horizontalPosition },
   } = sub;
-  console.log('hi');
   return depth * horizontalPosition;
 };
 
