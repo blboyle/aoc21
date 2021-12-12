@@ -4,6 +4,7 @@ import { CastOfCrabs } from './Crab/CastOfCrabs';
 import { Crab } from './Crab/Crab';
 import { VentDiagram } from './HydrothermalVents/VentDiagram';
 import { OctopusPool } from './Octopi/OctopusPool';
+import { Cave } from './Cave/Cave';
 import { SegmentDisplay } from './SevenSegmentDisplays/SegmentDisplay';
 
 export class Player {
@@ -124,5 +125,12 @@ export class Player {
     const { riskLevel, topThreeBasinProduct } = heightMap;
 
     return { riskLevel, topThreeBasinProduct };
+  }
+
+  findPaths({ input, double = false }) {
+    const cave = new Cave({ input });
+    Cave.canVisitTwice = double;
+    const paths = cave.getNumberOfPaths();
+    return paths;
   }
 }

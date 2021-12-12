@@ -1,4 +1,4 @@
-import { PathSegment } from "./PathSegment";
+import { PathSegment } from './PathSegment';
 
 export class Cave {
   constructor({ input }) {
@@ -15,10 +15,10 @@ export class Cave {
 
   static canVisitTwice;
   createSegments(input) {
-    const segments = input.split("\n").map((path) => {
-      let [start, end] = path.split("-");
+    const segments = input.split('\n').map((path) => {
+      let [start, end] = path.split('-');
       // console.log({ start, end });
-      if (end == "start") {
+      if (end == 'start') {
         let temp = start;
         start = end;
         end = temp;
@@ -31,14 +31,16 @@ export class Cave {
   }
 
   findTotalPaths() {
-    const [{ start }] = this.segments.filter((segment) => segment.isStart);
+    const [{ start }] = this.segments.filter(
+      (segment) => segment.isStart,
+    );
 
     start.continuePath();
     // console.log(this.foundPaths, this.foundPaths.length);
   }
 
-  getNumberOfPaths({ double }) {
-    Cave.canVisitTwice = double;
+  getNumberOfPaths() {
+    // Cave.canVisitTwice = double;
     this.findTotalPaths();
     return this.foundPaths.length;
   }
