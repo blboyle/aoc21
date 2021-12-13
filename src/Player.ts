@@ -6,7 +6,7 @@ import { VentDiagram } from './HydrothermalVents/VentDiagram';
 import { OctopusPool } from './Octopi/OctopusPool';
 import { Cave } from './Cave/Cave';
 import { SegmentDisplay } from './SevenSegmentDisplays/SegmentDisplay';
-
+import { TransparentPaper } from './TransparentPaper/TransparentPaper';
 export class Player {
   constructor() {}
   countSonarIncrease(sonarReport: number[]) {
@@ -132,5 +132,12 @@ export class Player {
     Cave.canVisitTwice = double;
     const paths = cave.getNumberOfPaths();
     return paths;
+  }
+
+  analyseTransparentPaper({ input }) {
+    const { code, analysis } = new TransparentPaper({
+      input,
+    });
+    return { code, analysis };
   }
 }
