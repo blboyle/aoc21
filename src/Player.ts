@@ -8,6 +8,7 @@ import { Cave } from './Cave/Cave';
 import { SegmentDisplay } from './SevenSegmentDisplays/SegmentDisplay';
 import { TransparentPaper } from './TransparentPaper/TransparentPaper';
 import { Polymerization } from './Polymerization/Polymerization';
+import { ChitonMap } from './ChitonMap/ChitonMap';
 
 export class Player {
   constructor() {}
@@ -155,5 +156,9 @@ export class Player {
       mostCommonChars[mostCommonChars.length - 1][1];
 
     return { difference };
+  }
+
+  navigateChitons({ input }) {
+    const map = new ChitonMap({ input });
   }
 }
