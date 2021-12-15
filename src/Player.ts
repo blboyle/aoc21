@@ -7,6 +7,8 @@ import { OctopusPool } from './Octopi/OctopusPool';
 import { Cave } from './Cave/Cave';
 import { SegmentDisplay } from './SevenSegmentDisplays/SegmentDisplay';
 import { TransparentPaper } from './TransparentPaper/TransparentPaper';
+import { Polymerization } from './Polymerization/Polymerization';
+
 export class Player {
   constructor() {}
   countSonarIncrease(sonarReport: number[]) {
@@ -139,5 +141,19 @@ export class Player {
       input,
     });
     return { code, analysis };
+  }
+
+  readPolymerization({ input, steps }) {
+    const sheet = new Polymerization({
+      input,
+    });
+
+    const { mostCommonChars } = sheet.getNthStep({ steps });
+
+    const difference =
+      mostCommonChars[0][1] -
+      mostCommonChars[mostCommonChars.length - 1][1];
+
+    return { difference };
   }
 }
