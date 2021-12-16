@@ -149,13 +149,15 @@ export class Player {
       input,
     });
 
-    const { mostCommonChars } = sheet.getNthStep({ steps });
+    const { mostCommonChars, answer } = sheet.getNthStep({
+      steps,
+    });
 
     const difference =
       mostCommonChars[0][1] -
       mostCommonChars[mostCommonChars.length - 1][1];
 
-    return { difference };
+    return { difference, answer };
   }
 
   navigateChitons({ input }) {

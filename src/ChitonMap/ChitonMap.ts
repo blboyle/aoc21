@@ -17,7 +17,7 @@ export class ChitonMap {
     const [x, y] = this.currentLocation;
     // const [x, y] = [8, 0];
     const paths = this.mapArray[y][x].findAllPaths();
-    console.log({ paths });
+    // console.log({ paths });
   }
 
   createInitialMap() {

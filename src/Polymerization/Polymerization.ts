@@ -32,22 +32,15 @@ export class Polymerization {
     this.map = keyMap;
   }
 
-  insertLetters({ string: input }) {
-    let { length } = input;
-    let ending = '';
+  insertLetters(input) {
+    return input.map((part) => {
+      const [before, after] = part.split('');
 
-    for (let i = length - 1; i > 0; i--) {
-      const before = input.substring(0, i);
-      const after = input.substring(i);
-      const itemToInsert = this.getItemToInsert({
+      return `${before}${this.getItemToInsert({
         before,
         after,
-      });
-
-      ending = `${before}${itemToInsert}${after}`;
-    }
-
-    console.log({ ending });
+      })}${after}`;
+    });
   }
 
   getItemToInsert({ before, after }) {
@@ -78,21 +71,8 @@ export class Polymerization {
     return charArray;
   }
 
-  findDescendents({
-    string,
-    step,
-  }: {
-    string: string;
-    step: number;
-  }) {
-    // console.log({ string });
-    let newArray = [];
-
-    step--;
-
-    // let newString = this.insertLetters({ string });
-
-    let stringParts = string
+  getStringParts(string) {
+    return string
       .split('')
       .map((char, i, array) => {
         if (i > 0) {
@@ -100,6 +80,47 @@ export class Polymerization {
         }
       })
       .filter((item) => item != null);
+  }
+
+  rebuild(parts) {
+    const newParts = parts.map((part, i) => {
+      const item =
+        i != 0
+          ? part.split('').splice(1, 2).join('')
+          : part;
+      return item;
+    });
+    return newParts.join('');
+  }
+
+  findDescendents({
+    string,
+    step,
+  }: {
+    string: string;
+    step: number;
+  }) {
+    step--;
+    console.log({ step, string });
+
+    const stringParts = this.getStringParts(string);
+    const parts = this.insertLetters(stringParts);
+
+    console.log({ stringParts, parts });
+
+    if (step > 0) {
+      this.findDescendents({ string, step });
+    }
+
+    const rebuild = this.rebuild(parts);
+    console.log({ stringParts, parts });
+
+    return rebuild;
+    let newArray = [];
+
+    step--;
+
+    // let newString = this.insertLetters({ string });
 
     let arrayWithExtra = stringParts.flatMap((part) => {
       const [before, after] = part.split('');
@@ -112,6 +133,8 @@ export class Polymerization {
     // console.log({ arrayWithExtra });
 
     console.log('step', step, string, arrayWithExtra);
+
+    newArray = arrayWithExtra;
 
     if (step > 0) {
       arrayWithExtra.map((part) => {
@@ -163,13 +186,11 @@ export class Polymerization {
       string: this.starting,
       step: steps,
     });
-    console.log({ steps, table: Polymerization.hashTable });
-
-    console.log({ answer });
+    // console.log({ steps, table: Polymerization.hashTable });
 
     const mostCommonChars = this.mostCommonElements();
 
-    return { mostCommonChars };
+    return { mostCommonChars, answer };
   }
 
   get totals() {
