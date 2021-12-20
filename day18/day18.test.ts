@@ -15,7 +15,7 @@ import {
 
 import { SnailfishPod } from '../src/Snailfish/SnailfishPod';
 
-describe('testing', () => {
+describe.skip('testing', () => {
   describe('single explode', () => {
     it.each([
       [singleExplode1, singleExplodeExpected1],

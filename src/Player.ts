@@ -137,11 +137,12 @@ export class Player {
     return paths;
   }
 
-  analyseTransparentPaper({ input }) {
-    const { code, analysis } = new TransparentPaper({
+  analyseTransparentPaper({ input, folds }) {
+    const { code, countOfDots } = new TransparentPaper({
       input,
+      folds,
     });
-    return { code, analysis };
+    return { code, countOfDots };
   }
 
   readPolymerization({ input, steps }) {

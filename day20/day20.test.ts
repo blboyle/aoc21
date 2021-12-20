@@ -1,8 +1,8 @@
-import { test, input } from './fixtures';
+import { miniTest, test, input } from './fixtures';
 
 import { ImageEnhancement } from '../src/ImageEnhanement/ImageEnhancement';
 
-describe.skip('testing', () => {
+describe('testing', () => {
   describe('part one', () => {
     it.each([
       [2, 35, test, true],

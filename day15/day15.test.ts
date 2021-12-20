@@ -4,7 +4,7 @@ import { Player } from '../src';
 const player = new Player();
 
 describe('part 1', () => {
-  it.each([
+  it.skip.each([
     [1, test1, 1588],
     // [1, test1, 10, 1588],
     // [2, input, 10, 3213],

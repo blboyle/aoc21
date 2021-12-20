@@ -1,5 +1,8 @@
 export class TransparentPaper {
-  constructor({ input }) {
+  constructor({ input, folds = false }) {
+    if (folds) {
+      this.folds = folds;
+    }
     this.mapInput({ input });
     this.foldInstructions({ input });
     this.foldPaper();
@@ -11,13 +14,14 @@ export class TransparentPaper {
   currentStep;
   diagram;
   afterFirstFold;
+  folds;
 
   get code() {
     return this.diagram;
   }
 
-  get analysis() {
-    return this.afterFirstFold;
+  get countOfDots() {
+    return this.countDots();
   }
 
   mapInput({ input }) {
@@ -29,37 +33,35 @@ export class TransparentPaper {
       );
     const sizeOfArray = this.findSizeOfArray();
     this.paperArray = this.makeArray({ sizeOfArray });
-    this.outputDiagram();
     this.placeDots();
   }
 
   foldStep() {
     const sizeOfArray = this.findSizeOfArray();
-    // console.log({ sizeOfArray });
     this.paperArray = this.makeArray({ sizeOfArray });
-    this.outputDiagram();
     this.placeDots();
-    this.outputDiagram();
   }
 
   foldPaper() {
     this.foldSteps.map((step, i) => {
       this.currentStep = step;
-      return this.foldStep();
+      if (!this.folds || (this.folds && i < this.folds)) {
+        return this.foldStep();
+      }
     });
     this.outputDiagram();
   }
 
   countDots() {
-    let count = 0;
-    this.paperArray.map((row) =>
-      row.map((point) => {
-        if (point == '#') {
-          count++;
-        }
-      }),
+    return this.paperArray.reduce(
+      (acc, row) =>
+        acc +
+        row.reduce(
+          (acc2, point) => (point == '#' ? acc2 + 1 : acc2),
+          0,
+        ),
+      0,
     );
-    // console.log({ count });
   }
 
   placeDots() {
@@ -69,8 +71,6 @@ export class TransparentPaper {
       let y = dot[1];
 
       if (this.currentStep != null) {
-        // console.log('checking');
-        // console.log({ x, y });
         if (this.currentStep[0] == 'x') {
           if (x > this.currentStep[1]) {
             x =
@@ -85,7 +85,6 @@ export class TransparentPaper {
               (y - this.currentStep[1]);
           }
         }
-        // console.log({ x, y });
       }
 
       newDots.push([x, y]);
@@ -101,7 +100,6 @@ export class TransparentPaper {
       .join('\n');
     this.countDots();
     this.diagram = diagram;
-    // console.log(diagram);
   }
 
   makeArray({ sizeOfArray }) {
