@@ -5,8 +5,8 @@ const player = new Player();
 
 describe('part 1', () => {
   it.each([
-    [1, 'NCNBCHB'],
-    // [2, 'NBCCNBBBCBHCB'],
+    // [1, 'NCNBCHB'],
+    [2, 'NBCCNBBBCBHCB'],
     // [3, 'NBBBCNCCNBBNBNBBCHBHHBCHB'],
     // [
     //   4,

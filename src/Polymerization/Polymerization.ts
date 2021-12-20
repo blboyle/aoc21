@@ -72,6 +72,7 @@ export class Polymerization {
   }
 
   getStringParts(string) {
+    console.log({ string });
     return string
       .split('')
       .map((char, i, array) => {
@@ -93,27 +94,31 @@ export class Polymerization {
     return newParts.join('');
   }
 
+  static descendants = {};
+  maxSteps;
+
   findDescendents({
     string,
     step,
+    rebuilt,
   }: {
     string: string;
     step: number;
+    rebuilt?: string;
   }) {
-    step--;
-    console.log({ step, string });
-
-    const stringParts = this.getStringParts(string);
-    const parts = this.insertLetters(stringParts);
-
-    console.log({ stringParts, parts });
-
-    if (step > 0) {
-      this.findDescendents({ string, step });
-    }
-
+    const parts = this.getStringParts(rebuilt || string);
+    // const newParts = this.insertLetters();
     const rebuild = this.rebuild(parts);
-    console.log({ stringParts, parts });
+
+    console.log({ step, string, parts, rebuilt, rebuild });
+    step++;
+    if (step < this.maxSteps) {
+      this.findDescendents({
+        string,
+        step,
+        rebuilt: rebuild,
+      });
+    }
 
     return rebuild;
     let newArray = [];
@@ -182,15 +187,23 @@ export class Polymerization {
   }
 
   getNthStep({ steps = 5 }) {
-    const answer = this.findDescendents({
-      string: this.starting,
-      step: steps,
+    const stringParts = this.getStringParts(this.starting);
+    console.log({ stringParts });
+
+    this.maxSteps = steps;
+    stringParts.map((part) => {
+      this.findDescendents({
+        string: part,
+        step: 0,
+      });
     });
+    console.log('--');
+
     // console.log({ steps, table: Polymerization.hashTable });
 
     const mostCommonChars = this.mostCommonElements();
 
-    return { mostCommonChars, answer };
+    return { mostCommonChars };
   }
 
   get totals() {
