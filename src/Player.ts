@@ -145,21 +145,21 @@ export class Player {
     return { code, countOfDots };
   }
 
-  readPolymerization({ input, steps }) {
-    const sheet = new Polymerization({
-      input,
-    });
+  // readPolymerization({ input, steps }) {
+  //   const sheet = new Polymerization({
+  //     input,
+  //   });
 
-    const { mostCommonChars, answer } = sheet.getNthStep({
-      steps,
-    });
+  //   const { mostCommonChars, answer } = sheet.getNthStep({
+  //     steps,
+  //   });
 
-    const difference =
-      mostCommonChars[0][1] -
-      mostCommonChars[mostCommonChars.length - 1][1];
+  //   const difference =
+  //     mostCommonChars[0][1] -
+  //     mostCommonChars[mostCommonChars.length - 1][1];
 
-    return { difference, answer };
-  }
+  //   return { difference, answer };
+  // }
 
   navigateChitons({ input }) {
     const map = new ChitonMap({ input });
