@@ -30,6 +30,7 @@ export class MapPosition {
   }
 
   nextFourPoints(path, depth) {
+    let count = 0;
     depth++;
     // console.log('next four points', path);
     const map = this.map.mapArray;
@@ -62,6 +63,6 @@ export class MapPosition {
 
     console.log('end ', depth, { x, y });
 
-    return nextSteps;
+    return count;
   }
 }
