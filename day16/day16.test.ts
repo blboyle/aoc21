@@ -14,7 +14,7 @@ import {
 import { Player } from '../src';
 import { Computer } from '../src/Computer/Computer';
 
-describe.skip('day 16', () => {
+describe('day 16', () => {
   describe('hex 2 decimal', () => {
     it.each([
       [test1, test1HexToDecimal],
@@ -36,9 +36,7 @@ describe.skip('day 16', () => {
       ])('%s ', (input, expectedPacketVersion) => {
         const computer = new Computer({ input });
         const { mainPacketVersion } = computer;
-        expect(mainPacketVersion).toBe(
-          expectedPacketVersion,
-        );
+        expect(mainPacketVersion).toBe(expectedPacketVersion);
       });
     });
 
@@ -55,11 +53,8 @@ describe.skip('day 16', () => {
     });
   });
 
-  describe.skip('payload', () => {
-    it.each([
-      [test1, 2021],
-      // [test2, 6],
-    ])('%s - literal value', (input, expectedAnswer) => {
+  describe('payload', () => {
+    it.each([[test1, 2021]])('%s - literal value', (input, expectedAnswer) => {
       const computer = new Computer({ input });
       const { mainValue } = computer;
       expect(mainValue).toBe(expectedAnswer);
@@ -100,10 +95,7 @@ describe.skip('day 16', () => {
       (input, expectedBits, expectedNumber) => {
         const computer = new Computer({ input });
         const {
-          mainNumberOfImmediatelyContainedSubpackets: {
-            bits,
-            number,
-          },
+          mainNumberOfImmediatelyContainedSubpackets: { bits, number },
         } = computer;
         expect(bits).toBe(expectedBits);
         expect(number).toBe(expectedNumber);
@@ -127,18 +119,15 @@ describe.skip('day 16', () => {
     );
 
     it.each([
-      // [test1, null, null],
-      // [test2, null, null],
+      [test1, null, null],
+      [test2, null, null],
       [test3, '00000000011', 3],
     ])(
       '%s - for splitting type 1 length thigns',
       (input, expectedBits, expectedNumber) => {
         const computer = new Computer({ input });
         const {
-          mainNumberOfImmediatelyContainedSubpackets: {
-            bits,
-            number,
-          },
+          mainNumberOfImmediatelyContainedSubpackets: { bits, number },
         } = computer;
         expect(bits).toBe(expectedBits);
         expect(number).toBe(expectedNumber);
@@ -146,17 +135,15 @@ describe.skip('day 16', () => {
     );
 
     it.only.each([
-      // [example1, 16],
+      [example1, 16],
       [example2, 12],
-      // [example3, '00000000011'],
-    ])(
-      '%s - for splitting type 1 length thigns',
-      (input, expected) => {
-        const computer = new Computer({ input });
-        const { totalVersionNumbers } = computer;
-        expect(totalVersionNumbers).toBe(expected);
-      },
-    );
+      [example3, 23],
+      [example4, 31],
+    ])('%s - for splitting type 1 length thigns', (input, expected) => {
+      const computer = new Computer({ input });
+      const { totalVersionNumbers } = computer;
+      expect(totalVersionNumbers).toBe(expected);
+    });
   });
 });
 
@@ -171,4 +158,43 @@ describe.skip('day 16', () => {
     000 100 01100 
     011 100 01101 00
 
+*/
+
+/*
+
+110 000 0 00000 00010 10100
+  000 000 0 00000 00000 10110 
+    000 100 01010
+    110 100 01011
+  100 000 1 00000 00001 0 
+    111 100 01100
+    000 100 01101 000000
+
+
+*/
+
+/*
+
+101 000 0 00000 00010 11011 
+  001 000 1 00000 00000 1 
+    011 000 1 00000 00010 1 
+      111 100 00110
+      110 100 00110
+      101 100 01100
+      010 100 01111
+      010 100 01111 0000000
+
+
+
+        [ 5, '101' ], [ 1, '001' ], [ 3, '011' ], 
+        
+        [ 7, '111' ], [ 6, '110' ], [ 5, '101' ], [ 2, '010' ], [ 2, '010' ],
+
+
+        where do these come from?
+        [ 0, '' ],    [ 0, '000' ],
+        [ 4, '100' ], [ 1, '001' ],
+        [ 0, '' ],    [ 0, '' ],
+        [ 0, '' ],    [ 2, '010' ]
+     
 */

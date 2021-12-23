@@ -4,13 +4,18 @@ export class Computer {
   constructor({ input }) {
     this.transmission = input;
     this.convertTransmissionToBinary();
-    console.log(this.binary.length, this.binary);
+    // console.log(this.binary.length, this.binary);
+    console.log('main packet', {
+      binary: this.binary,
+    });
     this.main = new Packet({ binary: this.binary });
+    console.log({ vs: Computer.packetsVersions });
   }
   transmission;
   binary;
 
   main;
+  static packetsVersions = [];
 
   get binaryTransmission() {
     return this.binary;
@@ -42,10 +47,7 @@ export class Computer {
 
   get totalVersionNumbers() {
     console.log('getting total versions - main');
-    return (
-      this.main.totalVersionNumbers +
-      this.main.packetVersion
-    );
+    return this.main.totalVersionNumbers + this.main.packetVersion;
   }
 
   static hexToBinaryMap = {
