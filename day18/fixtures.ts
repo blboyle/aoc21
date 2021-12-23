@@ -6,8 +6,18 @@ export const singleExplode5 = `[[3,[2,[8,0]]],[9,[5,[4,[3,2]]]]]`;
 export const singleExplodeExpected1 = `[[[[0,9],2],3],4]`;
 export const singleExplodeExpected2 = `[7,[6,[5,[7,0]]]]`;
 export const singleExplodeExpected3 = `[[6,[5,[7,0]]],3]`;
-export const singleExplodeExpected4 = `[[3,[2,[8,0]]],[9,[5,[4,[3,2]]]]]`;
-export const singleExplodeExpected5 = `[[3,[2,[8,0]]],[9,[5,[7,0]]]].`;
+export const singleExplodeExpected4 = `[[[3,[2,[8,0]]],[9,[5,[4,[3,2]]]]]`;
+export const singleExplodeExpected5 = `[[3,[2,[8,0]]],[9,[5,[7,0]]]]`;
+
+export const miniTest = `[[[[4,3],4],4],[7,[[8,4],9]]]
+[1,1]`;
+
+export const miniTestStep1 = `[[[[[4,3],4],4],[7,[[8,4],9]]],[1,1]]`;
+export const miniTestStep2 = `[[[[0,7],4],[7,[[8,4],9]]],[1,1]]`;
+export const miniTestStep3 = `[[[[0,7],4],[15,[0,13]]],[1,1]]`;
+export const miniTestStep4 = `[[[[0,7],4],[[7,8],[0,13]]],[1,1]]`;
+export const miniTestStep5 = `[[[[0,7],4],[[7,8],[0,[6,7]]]],[1,1]]`;
+export const miniTestStep6 = `[[[[0,7],4],[[7,8],[6,0]]],[8,1]]`;
 
 export const test1 = `[1,2]
 [[1,2],3]
