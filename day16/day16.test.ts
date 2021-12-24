@@ -135,9 +135,9 @@ describe('day 16', () => {
     );
 
     it.only.each([
-      [example1, 16],
-      [example2, 12],
-      [example3, 23],
+      // [example1, 16],
+      // [example2, 12],
+      // [example3, 23],
       [example4, 31],
     ])('%s - for splitting type 1 length thigns', (input, expected) => {
       const computer = new Computer({ input });

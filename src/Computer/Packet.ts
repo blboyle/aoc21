@@ -2,7 +2,9 @@ import { Computer } from './Computer';
 
 export class Packet {
   constructor({ binary }) {
-    console.log(`
+    console.log(
+      binary,
+      `
     -
     -
     -
@@ -18,7 +20,8 @@ export class Packet {
     -
     -
     
-    `);
+    `,
+    );
     this.binary = binary;
     this.packetVersion = this.setPacketVersion();
     this.typeId = this.setTypeId();
@@ -94,7 +97,9 @@ export class Packet {
       if (count == 1) {
         console.log('ONE');
         // console.log('making new subpacket count 1');
-        this.subpackets.push(new Packet({ binary }));
+        if (binary.length > 0) {
+          this.subpackets.push(new Packet({ binary }));
+        }
         // console.log(1, this.subpackets);
         return;
       }
@@ -113,7 +118,9 @@ export class Packet {
           let newPacketBinary = binary.slice(beginningIndex, i);
 
           // console.log('making new subpacket', newPacketBinary);
-          this.subpackets.push(new Packet({ binary: newPacketBinary }));
+          if (newPacketBinary.length > 0) {
+            this.subpackets.push(new Packet({ binary: newPacketBinary }));
+          }
           console.log(this.subpackets.length);
 
           packetVersion = null;
@@ -137,7 +144,9 @@ export class Packet {
 
           let newBeginning = i + 15 + lengthOfSubpacketsInBits;
 
-          this.subpackets.push(new Packet({ binary: newPacketBinary }));
+          if (newPacketBinary.length > 0) {
+            this.subpackets.push(new Packet({ binary: newPacketBinary }));
+          }
 
           packetVersion = null;
           packetTypeId = null;
@@ -205,7 +214,11 @@ export class Packet {
           let newPacketBinary = binary.slice(beginningIndex, i);
 
           // console.log('making new subpacket', newPacketBinary);
-          this.subpackets.push(new Packet({ binary: newPacketBinary }));
+          if (newPacketBinary.length > 0) {
+            // here somewhere
+            console.log('here somewhere', newPacketBinary);
+            // this.subpackets.push(new Packet({ binary: newPacketBinary }));
+          }
 
           packetVersion = null;
           packetTypeId = null;
@@ -230,7 +243,9 @@ export class Packet {
 
           // console.log({ l: newPacketBinary.length });
           // console.log('making new subpacket count+', newPacketBinary);
-          this.subpackets.push(new Packet({ binary: newPacketBinary }));
+          if (newPacketBinary.length > 0) {
+            this.subpackets.push(new Packet({ binary: newPacketBinary }));
+          }
 
           packetVersion = null;
           packetTypeId = null;
